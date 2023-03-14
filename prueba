@@ -1,0 +1,120 @@
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <string>
+
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+string hexadecimalMultiplication(string num1, string num2) {
+    // Convertir los números hexadecimales a enteros
+    int n1, n2;
+    stringstream ss;
+    ss << hex << num1;
+    ss >> n1;
+    ss.clear();
+    ss << hex << num2;
+    ss >> n2;
+
+    // Realizar la multiplicación a nivel de bits
+    int resultado = n1 * n2;
+
+    // Convertir el resultado a formato hexadecimal
+    stringstream ss2;
+    ss2 << hex << resultado;
+    string resultado_hex = ss2.str();
+
+    return resultado_hex;
+}
+
+string hexadecimalXOR (string num1, string num2) {
+    // Convertir los números hexadecimales a enteros
+    int n1, n2;
+    stringstream ss;
+    ss << hex << num1;
+    ss >> n1;
+    ss.clear();
+    ss << hex << num2;
+    ss >> n2;
+
+    // Realizar la multiplicación a nivel de bits
+    int resultado = n1 ^ n2;
+
+    // Convertir el resultado a formato hexadecimal
+    stringstream ss2;
+    ss2 << hex << resultado;
+    string resultado_hex = ss2.str();
+
+    return resultado_hex;
+}
+
+std::string hexadecimalMultOutOverflow( std::string a, std::string b ) {
+
+    std::string result1;
+    std::string result2;
+
+
+    if (a == "01"){
+        return b;
+
+    } 
+    else if(a == "02"){
+
+        result1 = hexadecimalMultiplication(a, b);
+        if (result1.length() == 3){
+            result1 = hexadecimalXOR(result1, "1b");
+            result1.erase(0,1);
+            return result1;
+        }
+        else{
+            return result1;
+        }
+    }
+
+    else if ( a == "03") {
+
+       result1 = hexadecimalMultiplication("02", b);
+        if (result1.length() == 3){
+            result1 = hexadecimalXOR(result1, "1b");
+            result1.erase(0,1);
+            result1 = hexadecimalXOR(result1, b);
+            return result1;
+        }
+        else{
+            result1 = hexadecimalXOR(result1, b);
+            return result1;
+        }
+
+    }
+    else {
+        return "00";
+    }
+}
+
+int main() {
+    string aux1 = hexadecimalSumOutOverflow("02", "77");
+    string aux2 = hexadecimalSumOutOverflow("03", "DE");
+    string aux3 = hexadecimalSumOutOverflow("01", "96");
+    string aux4 = hexadecimalSumOutOverflow("01", "1A");
+
+
+
+    string aux7 = hexadecimalXOR(aux1, aux2);
+    string aux8 = hexadecimalXOR(aux3, aux4);
+    string aux9 = hexadecimalXOR(aux7, aux8);
+
+
+
+
+
+
+
+
+
+    
+
+    cout << "El resultado de la multiplicacion " << aux1 <<" " << aux2 <<" "<< aux3<<" " << aux4 << " " << aux7 << " " << aux8 << "  " << aux9 << endl;
+    return 0;
+}
